@@ -12,15 +12,11 @@ public class Buscaminas {
     private boolean juegoTerminado;
 
     public Buscaminas() {
-        this.tablero = crearMatriz();
+        this.tablero = new int[FILAS][COLUMNAS];
         this.mostrado = new boolean[FILAS][COLUMNAS];
         colocarMinas();
         llenarPistas();
         this.juegoTerminado = false;
-    }
-
-    private int[][] crearMatriz() {
-        return new int[FILAS][COLUMNAS];
     }
 
     private void colocarMinas() {
@@ -57,24 +53,41 @@ public class Buscaminas {
         System.out.println("\nTABLERO:");
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
+                String valor;
                 if (mostrado[i][j]) {
-                    System.out.print(tablero[i][j] == -1 ? "* " : tablero[i][j] + " ");
+                    if (tablero[i][j] == -1) {
+                        valor = "*";
+                    } else if (tablero[i][j] == 0) {
+                        valor = " ";
+                    } else {
+                        valor = String.valueOf(tablero[i][j]);
+                    }
                 } else {
-                    System.out.print("# ");
+                    valor = "-";
                 }
+                System.out.print(String.format("%-3s", valor));
             }
             System.out.println();
         }
     }
+
     private void mostrarTableroFinal() {
-        System.out.println("\nTABLERO FINAL:");
+        System.out.println("\nTABLERO:");
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
+                String valor;
                 if (mostrado[i][j]) {
-                    System.out.print(tablero[i][j] == -1 ? "* " : tablero[i][j] + " ");
+                    if (tablero[i][j] == -1) {
+                        valor = "*";
+                    } else if (tablero[i][j] == 0) {
+                        valor = " ";
+                    } else {
+                        valor = String.valueOf(tablero[i][j]);
+                    }
                 } else {
-                    System.out.print("# ");
+                    valor = "-";
                 }
+                System.out.print(String.format("%-3s", valor));
             }
             System.out.println();
         }
@@ -89,7 +102,6 @@ public class Buscaminas {
 
         if (tablero[fila][columna] == -1) {
             juegoTerminado = true;
-            System.out.println("¡Has perdido! Pisaste una mina.");
             return;
         }
 
@@ -133,12 +145,13 @@ public class Buscaminas {
 
                 if (juegoTerminado) {
                     mostrarTodo();
+                    System.out.println("\n¡GAME OVERR!");
                     break;
                 }
 
                 if (verificarGanador()) {
-                    System.out.println("¡Felicidades! Has ganado.");
                     mostrarTodo();
+                    System.out.println("\n¡Felicidades! Has ganado.");
                     break;
                 }
             } catch (Exception e) {
